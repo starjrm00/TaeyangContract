@@ -12,6 +12,9 @@ else:
     cred_dict = json.loads(st.secrets["firebase_service_key"])
     cred = credentials.Certificate(cred_dict)
 
+if not firebase_admin._apps:
+    firebase_admin.initialize_app(cred)
+
 db = firestore.client(database_id = "(default)")
 
 #TODO 12시 땡하면 한달남은 거래, 일주일 남은 거래, 하루남은 거래, 오늘 마감인 거래 등록된 구글 캘린더로 알림쏴주기
