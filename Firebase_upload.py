@@ -41,8 +41,7 @@ def edit_trade_data(origin_df, edited_df):
             origin["계약항목"] != edited["계약항목"] or
             origin["계약시작일"] != edited["계약시작일"] or
             origin["계약종료일"] != edited["계약종료일"] or
-            origin["계약금액"] != edited["계약금액"] or
-            origin["메모"] != edited["메모"]
+            origin["계약금액"] != edited["계약금액"]
         )
             
         if is_changed:
