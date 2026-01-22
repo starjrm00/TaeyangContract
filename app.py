@@ -5,6 +5,8 @@ from Firebase_upload import upload_new_trade, edit_trade_data
 from Firebase_download import get_trade_data, get_accumulate_trade_data
 from Firebase_connect import db
 from XlsxToDataframe import makeNewTrade
+from openpyxl.utils import get_column_letter
+import io
 
 st.set_page_config(page_title="태양메디 계약관리 시스템", layout="wide")
 st.title("태양메디 계약관리 시스템")
@@ -56,6 +58,33 @@ if st.session_state.page == 1:
             st.success(f"{len(df)}개의 계약내역 존재")
     if "df_display" in st.session_state:
         edited_df = st.data_editor(st.session_state["df_display"], num_rows = "fixed")
+        
+        # 엑셀 다운로드 버튼
+        output = io.BytesIO()
+        df_to_download = st.session_state["df_display"].copy()
+        # index 제외하고 저장
+        with pd.ExcelWriter(output, engine="openpyxl") as writer:
+            df_to_download.to_excel(writer, index=False, sheet_name='계약내역')
+            # 시트 가져오기
+            worksheet = writer.sheets['계약내역']
+
+            # 각 컬럼 폭 자동 조정
+            for i, col in enumerate(df_to_download.columns, 1):
+                max_length = max(
+                    df_to_download[col].astype(str).map(len).max(),  # 데이터 길이
+                    len(col)  # 헤더 길이
+                )
+                worksheet.column_dimensions[get_column_letter(i)].width = max_length + 2  # 여유 2칸
+
+
+        processed_data = output.getvalue()
+
+        st.download_button(
+            label="엑셀 다운로드",
+            data=processed_data,
+            file_name="계약내역.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
         if st.button("수정 내용 저장"):
             edit_trade_data(st.session_state["df_original"], edited_df)
@@ -63,7 +92,6 @@ if st.session_state.page == 1:
 
             del st.session_state["df_display"]
             del st.session_state["df_original"]
-
 
 
 elif st.session_state.page == 2:
@@ -85,6 +113,21 @@ elif st.session_state.page == 2:
             df["계약금액"] = df["계약금액"].apply(lambda x: f"₩{x:,}")
             st.success(f"{len(df)-1}개의 계약내역 존재")
             st.dataframe(df)
+
+        # 엑셀 다운로드 버튼
+        output = io.BytesIO()
+        df_to_download = df.copy()
+        # index 제외하고 저장
+        with pd.ExcelWriter(output, engine="openpyxl") as writer:
+            df_to_download.to_excel(writer, index=False, sheet_name='계약내역')
+        processed_data = output.getvalue()
+
+        st.download_button(
+            label="엑셀 다운로드",
+            data=processed_data,
+            file_name="계약내역.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
 elif st.session_state.page == 3:
 
