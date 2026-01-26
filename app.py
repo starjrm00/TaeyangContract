@@ -43,7 +43,6 @@ if btn4:
 
 if st.session_state.page == 1:
     st.markdown("계약내역 검색창")
-    st.markdown("둘 다 입력시 하단에 누적 계약금액이 추가로 출력됩니다.")
     
     col1, col2 = st.columns(2)
     with col1:
