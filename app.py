@@ -6,13 +6,14 @@ from Firebase_download import get_trade_data, get_accumulate_trade_data
 from Firebase_connect import db
 from XlsxToDataframe import makeNewTrade
 from openpyxl.utils import get_column_letter
+from set_notification import notify_contracts
 import io
 
 st.set_page_config(page_title="태양메디 계약관리 시스템", layout="wide")
 st.title("태양메디 계약관리 시스템")
 
 #버튼 세팅
-col1, col2, col3 = st.columns([1, 1, 1])
+col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
 with col1:
     btn1 = st.button("계약내역 검색")
 
@@ -20,7 +21,11 @@ with col2:
     btn2 = st.button("계약내역 누적 검색")
 
 with col3:
-    btn3 = st.button("계약내역 등록")
+    btn3 = st.button("계약 구글 캘린더에 등록")
+
+with col4:
+    btn4 = st.button("신규계약 등록")
+
 #page 세팅
 if 'page' not in st.session_state:
     st.session_state.page = 1
@@ -30,7 +35,9 @@ if btn1:
 if btn2:
     st.session_state.page = 2
 if btn3:
-    st.session_state.page = 3
+    notify_contracts(None)
+if btn4:
+    st.session_state.page = 4
 
 if st.session_state.page == 1:
     st.markdown("계약내역 검색창")
@@ -129,7 +136,7 @@ elif st.session_state.page == 2:
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
-elif st.session_state.page == 3:
+elif st.session_state.page == 4:
 
     st.markdown("계약내역 입력창")
 
