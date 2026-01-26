@@ -1,11 +1,10 @@
-from flask import Request
 from google.cloud import firestore
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from Firebase_connect import db
 import datetime
 
-def notify_contracts(request: Request):
+def notify_contracts():
 
     credentials = service_account.Credentials.from_service_account_file(
         "service-account.json",

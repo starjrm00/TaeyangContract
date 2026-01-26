@@ -35,7 +35,7 @@ if btn1:
 if btn2:
     st.session_state.page = 2
 if btn3:
-    notify_contracts(None)
+    notify_contracts()
 if btn4:
     st.session_state.page = 4
 
