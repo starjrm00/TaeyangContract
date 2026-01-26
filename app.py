@@ -19,10 +19,10 @@ with col1:
 
 with col2:
     btn2 = st.button("계약내역 누적 검색")
-'''
-with col3:
-    btn3 = st.button("계약 구글 캘린더에 등록")
-'''
+
+#with col3:
+#    btn3 = st.button("계약 구글 캘린더에 등록")
+
 with col4:
     btn4 = st.button("신규계약 등록")
 
@@ -34,10 +34,10 @@ if btn1:
     st.session_state.page = 1
 if btn2:
     st.session_state.page = 2
-'''
-if btn3:
-    notify_contracts()
-'''
+
+#if btn3:
+#    notify_contracts()
+
 if btn4:
     st.session_state.page = 4
 
