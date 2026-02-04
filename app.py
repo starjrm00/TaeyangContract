@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-from google_auth_oauthlib.flow import Flow
-import os
 from Firebase_upload import upload_new_trade, edit_trade_data
 from Firebase_download import get_trade_data, get_accumulate_trade_data
 from Firebase_connect import db
